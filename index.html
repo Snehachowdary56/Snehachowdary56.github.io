@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sneha Gunturu Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Public+Sans:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* Layout idea: one reading column with wide figure rows; each case study runs Problem → Decisions → Result → What I'd change. */
+:root{
+  --paper:#f7f8fa;
+  --surface:#ffffff;
+  --ink:#141c2e;
+  --muted:#4a5468;
+  --line:#d9dee7;
+  --accent:#2346d6;
+  --accent-soft:#e6ebfc;
+  --font-display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --font-body:"Public Sans", "Segoe UI", system-ui, sans-serif;
+  --font-mono:"JetBrains Mono", ui-monospace, Consolas, monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0f1420; --surface:#171e2d; --ink:#e8ecf4; --muted:#a6b0c3; --line:#2b3446;
+    --accent:#8ea4ff; --accent-soft:#1f2a4d; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0f1420; --surface:#171e2d; --ink:#e8ecf4; --muted:#a6b0c3; --line:#2b3446;
+  --accent:#8ea4ff; --accent-soft:#1f2a4d; color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto} *{transition:none!important}}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 17px/1.6 var(--font-body)}
+a{color:var(--accent)}
+a:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.wrap{max-width:1040px;margin:0 auto;padding:0 24px}
+.read{max-width:68ch}
+h1,h2,h3{font-family:var(--font-display);line-height:1.15;text-wrap:balance;margin:0}
+h1{font-size:clamp(2.2rem,5vw,3.4rem);font-weight:700;letter-spacing:-.01em}
+h2{font-size:clamp(1.6rem,3.4vw,2.2rem);font-weight:700}
+h3{font-size:1.15rem;font-weight:700;margin-top:1.6rem}
+p{margin:.6rem 0}
+header.top{padding:56px 0 28px;border-bottom:1px solid var(--line)}
+.role{color:var(--muted);font-size:1.1rem;margin-top:.5rem}
+.contact{display:flex;flex-wrap:wrap;gap:8px 20px;margin-top:18px;font-size:.95rem}
+nav.toc{display:flex;flex-wrap:wrap;gap:10px;margin:22px 0 0}
+nav.toc a{padding:6px 12px;border:1px solid var(--line);border-radius:999px;text-decoration:none;color:var(--ink);font-size:.92rem;background:var(--surface)}
+nav.toc a:hover{border-color:var(--accent)}
+section.case{padding:56px 0;border-bottom:1px solid var(--line)}
+.meta{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0 4px}
+.chip{font:500 .78rem/1 var(--font-mono);padding:6px 9px;border-radius:6px;background:var(--accent-soft);color:var(--ink)}
+.label{font:500 .78rem/1 var(--font-mono);text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-top:1.8rem}
+.figs{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(440px,100%),1fr));gap:18px;margin:22px 0;align-items:start}
+figure{margin:0;background:var(--surface);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+figure img{display:block;width:100%;height:auto;background:#fff}
+figcaption{padding:10px 14px;font-size:.88rem;color:var(--muted)}
+ul.tight{margin:.4rem 0;padding-left:1.2rem}
+ul.tight li{margin:.3rem 0}
+.change{border-left:3px solid var(--accent);padding:4px 0 4px 16px;margin-top:1rem}
+footer{padding:40px 0 64px;color:var(--muted);font-size:.92rem}
+
+/* ---------- Mini design system demo ("Kit") ---------- */
+.kit{--k-brand:#2346d6;--k-radius:8px;--k-on-brand:#ffffff;--k-danger:#b42318;--k-border:#8b95a7;--k-text:#141c2e;--k-surface:#ffffff;--k-muted:#4a5468;--k-focus:#2346d6;
+  background:var(--k-surface);color:var(--k-text);border:1px solid var(--line);border-radius:12px;padding:22px;margin:22px 0;font-family:var(--font-body)}
+.kit-controls{display:flex;flex-wrap:wrap;gap:18px;align-items:end;padding-bottom:18px;border-bottom:1px solid #e3e7ee;margin-bottom:18px}
+.kit-controls label{display:flex;flex-direction:column;gap:6px;font-size:.85rem;color:var(--k-muted)}
+.kit-controls select,.kit-controls input[type=range]{font:inherit}
+.kit-controls select{padding:6px 8px;border:1px solid var(--k-border);border-radius:6px;background:#fff;color:var(--k-text)}
+.kit-row{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin:10px 0 18px}
+.kit h4{font:500 .78rem/1 var(--font-mono);text-transform:uppercase;letter-spacing:.08em;color:var(--k-muted);margin:6px 0 0}
+.k-btn{font:600 .95rem/1 var(--font-body);border-radius:var(--k-radius);border:2px solid var(--k-brand);cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:filter .15s, background .15s}
+.k-btn[data-size=sm]{padding:7px 12px;font-size:.85rem}
+.k-btn[data-size=md]{padding:11px 18px}
+.k-btn[data-variant=primary]{background:var(--k-brand);color:var(--k-on-brand)}
+.k-btn[data-variant=secondary]{background:transparent;color:var(--k-brand)}
+.k-btn[data-variant=ghost]{background:transparent;color:var(--k-brand);border-color:transparent}
+.k-btn:hover:not([aria-disabled=true]){filter:brightness(.92)}
+.k-btn[data-variant=ghost]:hover:not([aria-disabled=true]){background:rgba(35,70,214,.08)}
+.k-btn:focus-visible{outline:3px solid var(--k-focus);outline-offset:2px}
+.k-btn[aria-disabled=true]{background:#e4e7ec;color:#5b6474;border-color:#e4e7ec;cursor:not-allowed}
+.k-btn[aria-busy=true]::before{content:"";width:12px;height:12px;border-radius:50%;border:2px solid currentColor;border-right-color:transparent;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion: reduce){.k-btn[aria-busy=true]::before{animation:none}}
+.k-field{display:flex;flex-direction:column;gap:6px;min-width:220px;flex:1 1 220px}
+.k-field label{font-weight:600;font-size:.9rem}
+.k-field input{font:inherit;padding:10px 12px;border:1.5px solid var(--k-border);border-radius:var(--k-radius);background:#fff;color:var(--k-text)}
+.k-field input:focus-visible{outline:3px solid var(--k-focus);outline-offset:1px;border-color:var(--k-brand)}
+.k-field input[aria-invalid=true]{border-color:var(--k-danger)}
+.k-field input:disabled{background:#f0f2f5;color:#5b6474}
+.k-help{font-size:.82rem;color:var(--k-muted)}
+.k-error{font-size:.82rem;color:var(--k-danger);font-weight:600}
+.k-switch{display:inline-flex;align-items:center;gap:10px;background:none;border:0;padding:4px;cursor:pointer;font:inherit;color:var(--k-text)}
+.k-track{width:44px;height:26px;border-radius:999px;background:#8b95a7;position:relative;transition:background .15s}
+.k-track::after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:transform .15s}
+.k-switch[aria-checked=true] .k-track{background:var(--k-brand)}
+.k-switch[aria-checked=true] .k-track::after{transform:translateX(18px)}
+.k-switch:focus-visible{outline:3px solid var(--k-focus);outline-offset:2px;border-radius:8px}
+.tokens{width:100%;border-collapse:collapse;font-size:.88rem;margin-top:8px}
+.tokens th,.tokens td{text-align:left;padding:7px 8px;border-bottom:1px solid #e3e7ee;vertical-align:middle}
+.tokens code{font-family:var(--font-mono);font-size:.82rem}
+.swatch{display:inline-block;width:16px;height:16px;border-radius:4px;border:1px solid #c5cbd6;vertical-align:-3px;margin-right:6px}
+.table-wrap{overflow-x:auto}
+.contrast{font:500 .82rem var(--font-mono);color:var(--k-muted)}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <h1>Sneha Gunturu</h1>
+    <p class="role">Front-end developer working where design meets code. Master of Applied Computing, University of Windsor (expected Sep. 2027).</p>
+    <div class="contact">
+      <span>gunturu1@uwindsor.ca</span>
+      <a href="https://linkedin.com/in/sneha-gunturu-a30117258">LinkedIn</a>
+      <a href="https://github.com/Snehachowdary56">GitHub</a>
+    </div>
+    <nav class="toc" aria-label="Case studies">
+      <a href="#resume-screening">1. Resume screening UI</a>
+      <a href="#mini-kit">2. Mini component kit</a>
+      <a href="#documentation">3. Documentation people can use</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+<section class="case" id="resume-screening">
+  <div class="wrap">
+    <div class="read">
+      <p class="label">Case study 1 · B.Tech capstone · Team of 3 · 2025</p>
+      <h2>A resume screening tool recruiters could read at a glance</h2>
+      <div class="meta"><span class="chip">Python</span><span class="chip">Streamlit</span><span class="chip">NLP</span><span class="chip">XGBoost</span></div>
+      <p class="label">Problem</p>
+      <p>Recruiters screen hundreds of resumes by hand, and that is where inconsistency and bias creep in. We built a tool that scores a resume against job domains so a recruiter sees the evidence behind a recommendation, not just a yes or no.</p>
+      <p class="label">What I worked on</p>
+      <ul class="tight">
+        <li>The Streamlit interface: a two-item sidebar (Home, Resume Screening), a drag-and-drop PDF upload, per-domain score bars, a domain expertise chart and a final status message.</li>
+        <li>The scoring engine behind it, trained on 400 labeled resumes. We compared five models; XGBoost performed best with 92% accuracy and a 0.93 F1-score.</li>
+        <li>Written test cases for the three situations a recruiter meets: a strong match (scored 87%), an unrelated resume (24%) and a mixed one (72%), plus an error state for files that are not resumes.</li>
+      </ul>
+    </div>
+    <div class="figs">
+      <figure><img src="img/bias-001.jpg" alt="Resume Parsing page with a sidebar showing Home and Resume Screening, and a drag-and-drop PDF upload area." loading="lazy"><figcaption>Upload: one task per page, with the file limit stated up front.</figcaption></figure>
+      <figure><img src="img/bias-003.jpg" alt="Resume Scores section showing horizontal bars for domains such as data science, programming and statistics." loading="lazy"><figcaption>Scores per domain, so a recruiter can see why a resume matched.</figcaption></figure>
+      <figure><img src="img/bias-004.jpg" alt="Bar chart titled Domain Expertise ranking domain scores from data science down to content skill." loading="lazy"><figcaption>Domain expertise chart, sorted from strongest to weakest.</figcaption></figure>
+      <figure><img src="img/bias-005.jpg" alt="Application Status message reading Congratulations, resume meets the requirement, suggest to recruit as Data Scientist." loading="lazy"><figcaption>The outcome comes last, after the evidence.</figcaption></figure>
+      <figure><img src="img/bias-002.jpg" alt="Upload page after an invalid file, showing a yellow notice: Resume does not meet the requirement for any role." loading="lazy"><figcaption>Invalid upload: a notice instead of a crash. The wording could be clearer (see below).</figcaption></figure>
+    </div>
+    <div class="read">
+      <p class="label">What I would change now</p>
+      <div class="change">
+        <ul class="tight">
+          <li><strong>Accessibility:</strong> the score bars rely on length and colour alone. I would add the number next to each bar and check the bar colour against the background for contrast.</li>
+          <li><strong>Consistency:</strong> section headings switch between purple, red and green. One heading style and colour set aside for status (success, warning) would read more calmly.</li>
+          <li><strong>Clear errors:</strong> an invalid file shows the same message as a weak resume. It should say the file could not be read and ask for a PDF resume.</li>
+          <li><strong>Plain language:</strong> "Suggest To Recruit as Data Scientist" overstates what a score can tell you. "Strong match for Data Scientist" leaves the decision with the recruiter, which was the point of reducing bias.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="case" id="mini-kit">
+  <div class="wrap">
+    <div class="read">
+      <p class="label">Case study 2 · Learning project · 2026</p>
+      <h2>A mini component kit where looks change and behaviour does not</h2>
+      <div class="meta"><span class="chip">Design tokens</span><span class="chip">HTML/CSS/JS</span><span class="chip">ARIA</span><span class="chip">Accessibility</span></div>
+      <p class="label">Problem</p>
+      <p>At Lenovo I built reusable UI components in React and Vue. A shared component only stays shared if teams can restyle it without copying it; once a team copies a component to change its look, its behaviour starts to drift. I wanted to practise the alternative: keep behaviour in the component and move every visual choice into tokens a team can change.</p>
+      <p class="label">Decisions</p>
+      <ul class="tight">
+        <li><strong>Variant, property or override?</strong> Variant changes meaning (primary, secondary, ghost). Property changes fit (size). Brand colour and corner radius are tokens, so changing them can never break focus, disabled or loading behaviour.</li>
+        <li><strong>States are designed, not left to the browser:</strong> hover, keyboard focus, disabled, loading and, for inputs, error.</li>
+        <li><strong>Disabled buttons stay focusable</strong> with <code>aria-disabled</code>, so a keyboard user can still reach them and hear why they are unavailable.</li>
+        <li><strong>The switch is a real switch</strong>: a button with <code>role="switch"</code> and <code>aria-checked</code>, operable with Space and Enter.</li>
+      </ul>
+      <p class="label">Try it</p>
+      <p>Change the brand and radius tokens. Then press Tab to move through the components: focus, disabled and loading behave the same in every theme.</p>
+    </div>
+
+    <div class="kit" id="kit" aria-label="Mini component kit demo">
+      <div class="kit-controls">
+        <label for="tok-brand">Brand token
+          <select id="tok-brand">
+            <option value="#2346d6">Cobalt</option>
+            <option value="#0f6b5c">Pine</option>
+            <option value="#7a2e8e">Plum</option>
+            <option value="#b8baff">Pale lilac (fails contrast)</option>
+          </select>
+        </label>
+        <label for="tok-radius"><span>Radius token: <span id="radius-out">8px</span></span>
+          <input id="tok-radius" type="range" min="0" max="20" value="8">
+        </label>
+        <p class="contrast" id="contrast-out" aria-live="polite"></p>
+      </div>
+
+      <h4>Button · variants × sizes</h4>
+      <div class="kit-row">
+        <button class="k-btn" data-variant="primary" data-size="md">Save changes</button>
+        <button class="k-btn" data-variant="secondary" data-size="md">Preview</button>
+        <button class="k-btn" data-variant="ghost" data-size="md">Cancel</button>
+        <button class="k-btn" data-variant="primary" data-size="sm">Small</button>
+      </div>
+      <h4>Button · states</h4>
+      <div class="kit-row">
+        <button class="k-btn" data-variant="primary" data-size="md" aria-disabled="true" aria-describedby="why-disabled">Submit</button>
+        <span class="k-help" id="why-disabled">Disabled until required fields are filled.</span>
+        <button class="k-btn" data-variant="primary" data-size="md" id="load-btn">Run check</button>
+      </div>
+
+      <h4>Text input · states</h4>
+      <div class="kit-row">
+        <div class="k-field">
+          <label for="f-name">Display name</label>
+          <input id="f-name" type="text" value="Sneha" aria-describedby="f-name-help">
+          <span class="k-help" id="f-name-help">Shown on your profile.</span>
+        </div>
+        <div class="k-field">
+          <label for="f-email">Work email</label>
+          <input id="f-email" type="email" value="sneha@" aria-invalid="true" aria-describedby="f-email-err">
+          <span class="k-error" id="f-email-err">Enter a full email address, like name@company.com.</span>
+        </div>
+        <div class="k-field">
+          <label for="f-id">Employee ID</label>
+          <input id="f-id" type="text" value="Assigned by HR" disabled aria-describedby="f-id-help">
+          <span class="k-help" id="f-id-help">You cannot edit this field.</span>
+        </div>
+      </div>
+
+      <h4>Switch</h4>
+      <div class="kit-row">
+        <button class="k-switch" role="switch" aria-checked="true" id="sw-1"><span class="k-track" aria-hidden="true"></span><span>Email me weekly summaries</span></button>
+      </div>
+
+      <h4>Tokens in use</h4>
+      <div class="table-wrap">
+        <table class="tokens">
+          <thead><tr><th scope="col">Token</th><th scope="col">Value</th><th scope="col">Used for</th></tr></thead>
+          <tbody>
+            <tr><td><code>--k-brand</code></td><td id="tv-brand"><span class="swatch" style="background:#2346d6"></span><code>#2346d6</code></td><td>Primary fill, secondary text and border, switch on</td></tr>
+            <tr><td><code>--k-radius</code></td><td id="tv-radius"><code>8px</code></td><td>Buttons and inputs</td></tr>
+            <tr><td><code>--k-danger</code></td><td><span class="swatch" style="background:#b42318"></span><code>#b42318</code></td><td>Error border and message (paired with text, never colour alone)</td></tr>
+            <tr><td><code>--k-focus</code></td><td><span class="swatch" style="background:#2346d6"></span><code>#2346d6</code></td><td>3px focus ring on every interactive component</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="read">
+      <p class="label">What I learned</p>
+      <div class="change">
+        <p>The pale lilac option is there on purpose. It shows why a customization tool has to check tokens: white text on that colour fails WCAG contrast, so a team could break accessibility without touching any code. Next I would rebuild these components in Figma with variants and variables named to match the tokens, so design and code use the same words.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="case" id="documentation">
+  <div class="wrap">
+    <div class="read">
+      <p class="label">Case study 3 · Personal projects · 2026</p>
+      <h2>Documentation people can use without asking me</h2>
+      <div class="meta"><span class="chip">C# / .NET</span><span class="chip">Swagger / OpenAPI</span><span class="chip">Python</span><span class="chip">pytest</span></div>
+      <p class="label">Problem</p>
+      <p>A component, an API or a report is only reusable if someone else can understand it alone. In two projects I treated the documentation as part of the product.</p>
+      <ul class="tight">
+        <li><strong>Payroll API:</strong> every endpoint is described in Swagger/OpenAPI, so a developer can read the parameters and try a request in the browser. When a required field is missing, the page says which one. 16 xUnit tests cover the pay rules.</li>
+        <li><strong>Optical test report:</strong> the pipeline produces an HTML report that leads with four summary numbers, then states in one sentence what was cleaned and why, then shows the detail. 18 pytest tests keep it honest.</li>
+      </ul>
+    </div>
+    <div class="figs">
+      <figure><img src="img/swagger.png" alt="Swagger page for PayrollApi version 1.0 showing the GET /api/employees endpoint with an optional department parameter." loading="lazy"><figcaption>Payroll API: endpoints documented and testable in the browser.</figcaption></figure>
+      <figure><img src="img/report.png" alt="Optical Component Validation Report with summary tiles for devices tested, yield, mean loss and temperature coefficient, followed by a data quality sentence and statistics table." loading="lazy"><figcaption>Validation report: summary first, then data quality, then detail.</figcaption></figure>
+    </div>
+    <div class="read">
+      <p class="label">What I would change now</p>
+      <div class="change"><p>The report's statistics table uses raw column names like p05 and p95. For readers outside engineering I would label them "5th percentile" and "95th percentile", the same way a design system's docs should use the words its users use.</p></div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>How I use AI tools: I use Claude, ChatGPT and GitHub Copilot to draft code and check ideas quickly. I review what they produce for accuracy and accessibility before I keep any of it, and I write the decisions on this page myself.</p>
+    <p>Sneha Gunturu · gunturu1@uwindsor.ca</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var kit=document.getElementById('kit');
+  var brand=document.getElementById('tok-brand');
+  var radius=document.getElementById('tok-radius');
+  var rOut=document.getElementById('radius-out');
+  var cOut=document.getElementById('contrast-out');
+  function lum(hex){
+    var c=hex.replace('#','');
+    var rgb=[0,2,4].map(function(i){var v=parseInt(c.substr(i,2),16)/255;return v<=0.03928?v/12.92:Math.pow((v+0.055)/1.055,2.4);});
+    return 0.2126*rgb[0]+0.7152*rgb[1]+0.0722*rgb[2];
+  }
+  function ratio(a,b){var x=lum(a),y=lum(b);return (Math.max(x,y)+0.05)/(Math.min(x,y)+0.05);}
+  function apply(){
+    var b=brand.value;
+    kit.style.setProperty('--k-brand',b);
+    kit.style.setProperty('--k-focus',b);
+    kit.style.setProperty('--k-radius',radius.value+'px');
+    rOut.textContent=radius.value+'px';
+    document.getElementById('tv-brand').innerHTML='<span class="swatch" style="background:'+b+'"></span><code>'+b+'</code>';
+    document.getElementById('tv-radius').innerHTML='<code>'+radius.value+'px</code>';
+    var r=ratio(b,'#ffffff');
+    cOut.textContent='White text on brand: '+r.toFixed(2)+':1 '+(r>=4.5?'(passes WCAG AA)':'(fails WCAG AA, needs 4.5:1)');
+  }
+  brand.addEventListener('change',apply);
+  radius.addEventListener('input',apply);
+  apply();
+
+  kit.querySelectorAll('.k-btn[aria-disabled=true]').forEach(function(btn){
+    btn.addEventListener('click',function(e){e.preventDefault();});
+  });
+  var load=document.getElementById('load-btn');
+  load.addEventListener('click',function(){
+    if(load.getAttribute('aria-busy')==='true')return;
+    load.setAttribute('aria-busy','true');load.textContent='Checking…';
+    setTimeout(function(){load.removeAttribute('aria-busy');load.textContent='Run check';},1600);
+  });
+  var sw=document.getElementById('sw-1');
+  sw.addEventListener('click',function(){sw.setAttribute('aria-checked',sw.getAttribute('aria-checked')==='true'?'false':'true');});
+})();
+</script>
+</body>
+</html>
