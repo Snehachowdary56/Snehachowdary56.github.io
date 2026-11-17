@@ -122,6 +122,7 @@ footer{padding:40px 0 64px;color:var(--muted);font-size:.92rem}
       <a href="#resume-screening">1. Resume screening UI</a>
       <a href="#mini-kit">2. Mini component kit</a>
       <a href="#documentation">3. Documentation people can use</a>
+      <a href="#design-system">4. Accessible design system &amp; claim flow</a>
     </nav>
   </div>
 </header>
@@ -253,7 +254,7 @@ footer{padding:40px 0 64px;color:var(--muted);font-size:.92rem}
     <div class="read">
       <p class="label">What I learned</p>
       <div class="change">
-        <p>The pale lilac option is there on purpose. It shows why a customization tool has to check tokens: white text on that colour fails WCAG contrast, so a team could break accessibility without touching any code. Next I would rebuild these components in Figma with variants and variables named to match the tokens, so design and code use the same words.</p>
+        <p>The pale lilac option is there on purpose. It shows why a customization tool has to check tokens: white text on that colour fails WCAG contrast, so a team could break accessibility without touching any code. I have since grown this into a full design system (case study 4) and started rebuilding it in Figma with variables and variants named to match the tokens, so design and code use the same words.</p>
       </div>
     </div>
   </div>
@@ -279,6 +280,47 @@ footer{padding:40px 0 64px;color:var(--muted);font-size:.92rem}
     <div class="read">
       <p class="label">What I would change now</p>
       <div class="change"><p>The report's statistics table uses raw column names like p05 and p95. For readers outside engineering I would label them "5th percentile" and "95th percentile", the same way a design system's docs should use the words its users use.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="case" id="design-system">
+  <div class="wrap">
+    <div class="read">
+      <p class="label">Case study 4 · Personal project · 2026</p>
+      <h2>An accessible design system, and the claim flow I built with it</h2>
+      <div class="meta"><span class="chip">Design system</span><span class="chip">Figma</span><span class="chip">WCAG 2.2 AA</span><span class="chip">UX research</span><span class="chip">HTML/CSS/JS</span><span class="chip">axe-core</span></div>
+      <p><a href="https://snehachowdary56.github.io/accessible-design-system/">Live design system</a> ·
+         <a href="https://snehachowdary56.github.io/accessible-design-system/case-study.html">Full case study</a> ·
+         <a href="https://snehachowdary56.github.io/accessible-design-system/prototype.html">Clickable prototype</a> ·
+         <a href="https://github.com/Snehachowdary56/accessible-design-system">Code on GitHub</a></p>
+      <p class="label">Problem</p>
+      <p>Insurance claim forms are often one long page: unclear formats, errors shown only in red and only after submitting, and no chance to check answers. That is hard for everyone and hardest for people using a screen reader, a keyboard or a small phone. I wanted to fix it the way a design system team would: build accessible pieces once, document them, then design the flow only from those pieces.</p>
+      <p class="label">What I did</p>
+      <ul class="tight">
+        <li><strong>Tokens:</strong> colour, spacing, radius, type and a 44px minimum target, kept in one JSON file. Every colour pair is checked with the WCAG formula; all 14 pass AA.</li>
+        <li><strong>Seven components</strong> (button, text field, checkbox and radio, switch, alert, tabs, dialog), each with usage guidelines, do’s and don’ts, and accessibility notes. Keyboard behaviour follows the WAI-ARIA patterns.</li>
+        <li><strong>Naming conventions</strong> shared by code and Figma: <code>ds-button--secondary</code> in code, <code>Button / Secondary</code> in Figma. In Figma I set up the colour variables and a Button component with variants and auto layout.</li>
+        <li><strong>The claim flow:</strong> proto-personas (a phone user, a screen reader user, a keyboard-only user), a journey map, low-fidelity wireframes, then a three-step clickable prototype with hints before input, errors in text, a focused error summary and a “check your answers” step.</li>
+        <li><strong>Checked automatically:</strong> 22 tests, including axe-core scans of every page. The scan caught a real problem, navigation links outside a landmark, which I fixed.</li>
+      </ul>
+    </div>
+    <div class="figs">
+      <figure><img src="img/harbour-buttons.jpg" alt="Five button variants: primary Submit claim, secondary Save draft, tertiary Cancel, a grey disabled button and a loading button with a spinner." loading="lazy"><figcaption>Button variants, including disabled and loading states.</figcaption></figure>
+      <figure><img src="img/harbour-tokens.jpg" alt="Design tokens table listing colour swatches, token names, hex values and uses, with contrast ratios such as 16.47 to 1 for body text." loading="lazy"><figcaption>Colour tokens with their contrast ratios.</figcaption></figure>
+      <figure><img src="img/harbour-journey.jpg" alt="Journey map table with stages Start, Details, Receipt, Review and After, listing user goals, pain points and design responses." loading="lazy"><figcaption>Journey map: each pain point has a design response.</figcaption></figure>
+      <figure><img src="img/harbour-wire.jpg" alt="Three greyscale wireframes of the claim steps: about the claim, receipt upload, and check your answers." loading="lazy"><figcaption>Low-fidelity wireframes before any colour.</figcaption></figure>
+      <figure><img src="img/harbour-errors.jpg" alt="Prototype step 1 after pressing Continue with empty fields: an error summary at the top links to each field, and each field shows an error message in text." loading="lazy"><figcaption>Errors in words, linked from a summary that receives focus.</figcaption></figure>
+    </div>
+    <div class="read">
+      <p class="label">What I would change now</p>
+      <div class="change">
+        <ul class="tight">
+          <li><strong>Test with real people:</strong> the usability test plan is written but not yet run. The personas are assumptions until five sessions, including a screen reader user, confirm or change them.</li>
+          <li><strong>Finish the Figma library:</strong> build the remaining components as variants and the claim screens as a Figma prototype, so designers can use the system without reading code.</li>
+          <li><strong>Save and continue later:</strong> people like the phone user often stop halfway, so the flow should keep their progress.</li>
+        </ul>
+      </div>
     </div>
   </div>
 </section>
