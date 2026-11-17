@@ -123,6 +123,7 @@ footer{padding:40px 0 64px;color:var(--muted);font-size:.92rem}
       <a href="#mini-kit">2. Mini component kit</a>
       <a href="#documentation">3. Documentation people can use</a>
       <a href="#design-system">4. Accessible design system &amp; claim flow</a>
+      <a href="#ai-chatbot">5. AI chatbot for test data</a>
     </nav>
   </div>
 </header>
@@ -320,6 +321,43 @@ footer{padding:40px 0 64px;color:var(--muted);font-size:.92rem}
           <li><strong>Test with real people:</strong> the usability test plan is written but not yet run. The personas are assumptions until five sessions, including a screen reader user, confirm or change them.</li>
           <li><strong>Finish the Figma library:</strong> build the remaining components as variants and the claim screens as a Figma prototype, so designers can use the system without reading code.</li>
           <li><strong>Save and continue later:</strong> people like the phone user often stop halfway, so the flow should keep their progress.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="case" id="ai-chatbot">
+  <div class="wrap">
+    <div class="read">
+      <p class="label">Case study 5 · Personal project · 2026</p>
+      <h2>An AI chatbot that answers questions about optical test data, and never makes up a number</h2>
+      <div class="meta"><span class="chip">AI application design</span><span class="chip">LLM tool calling</span><span class="chip">Python</span><span class="chip">SQL (DuckDB)</span><span class="chip">Streamlit</span><span class="chip">Evaluation</span></div>
+      <p><a href="https://github.com/Snehachowdary56/optical-test-pipeline">Code on GitHub</a> ·
+         <a href="https://github.com/Snehachowdary56/optical-test-pipeline/blob/main/eval/results.md">Evaluation results</a></p>
+      <p class="label">Problem</p>
+      <p>My optical test data pipeline produces a detailed report, but engineers usually want one quick answer: “What is the yield?”, “Is station B worse?”, “Why did this device fail?”. Opening a report or writing SQL for that is slow. A chatbot is faster, but only if engineers can trust it, and AI models are known to invent numbers.</p>
+      <p class="label">What I did</p>
+      <ul class="tight">
+        <li><strong>Tools, not guesses:</strong> every answer comes from one of 11 SQL tools (yield, stations, statistics, failing devices, temperature regression, data cleaning, spec limits) on 200 devices and 4,728 clean readings.</li>
+        <li><strong>Two modes:</strong> an offline rule-based mode that is free, fast and reproducible, and an LLM mode where a large language model (Claude API, tool calling) picks the tool and writes the answer.</li>
+        <li><strong>Guardrails for reliability:</strong> the model can only call the listed tools, off-topic questions are refused, and a groundedness check replaces any answer whose numbers are not in the data.</li>
+        <li><strong>Follow-up questions:</strong> “what about station B?” keeps the context of the previous question.</li>
+        <li><strong>Usability:</strong> a Streamlit web chat with example questions, and a small grey line under each answer showing which tool was used, so engineers can see where the number came from.</li>
+      </ul>
+      <p class="label">How I evaluated it</p>
+      <p>I wrote 60 labelled questions (single questions, off-topic questions and two-turn follow-ups) and checked the bot’s answers against results computed a different way, with pandas instead of SQL. It now scores 100% accuracy and 100% groundedness, and CI fails if accuracy drops below 95%. The first run was more useful than the final score: it found five answers containing numbers that were not in the data, which I fixed.</p>
+    </div>
+    <div class="figs">
+      <figure><img src="img/chatbot-web.png" alt="Web chat page titled Optical test data chatbot. The user asks What is the yield, and the bot answers Yield is 98.0 percent, 196 of 200 devices passed every test and 4 failed. The user asks Compare stations, and the bot lists the yield for stations A, B and C and names STN-B as the lowest. A grey line under each answer shows the tool used and offline mode." loading="lazy"><figcaption>The web chat. Each answer shows the tool it came from.</figcaption></figure>
+    </div>
+    <div class="read">
+      <p class="label">What I would change now</p>
+      <div class="change">
+        <ul class="tight">
+          <li><strong>Test with new questions:</strong> I wrote the test questions myself, so engineers’ own wording will score lower in offline mode. The next step is to collect real questions and score the LLM mode on them.</li>
+          <li><strong>Score the LLM mode:</strong> so far it is tested with a fake model (good answers, invented numbers, API errors). It still needs a scored run with a real API key.</li>
+          <li><strong>Charts in answers:</strong> a question like “how does temperature affect loss?” would be clearer with a small chart.</li>
         </ul>
       </div>
     </div>
