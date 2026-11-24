@@ -112,7 +112,7 @@ footer{padding:40px 0 64px;color:var(--muted);font-size:.92rem}
 <header class="top">
   <div class="wrap">
     <h1>Sneha Gunturu</h1>
-    <p class="role">Front-end developer working where design meets code. Master of Applied Computing, University of Windsor (expected Sep. 2027).</p>
+    <p class="role">Developer who builds, tests and documents software, data and AI tools, from front-end design to test automation. Master of Applied Computing, University of Windsor (expected Sep. 2027).</p>
     <div class="contact">
       <span>gunturu1@uwindsor.ca</span>
       <a href="https://linkedin.com/in/sneha-gunturu-a30117258">LinkedIn</a>
@@ -124,6 +124,7 @@ footer{padding:40px 0 64px;color:var(--muted);font-size:.92rem}
       <a href="#documentation">3. Documentation people can use</a>
       <a href="#design-system">4. Accessible design system &amp; claim flow</a>
       <a href="#ai-chatbot">5. AI chatbot for test data</a>
+      <a href="#lab-test">6. Lab test automation</a>
     </nav>
   </div>
 </header>
@@ -358,6 +359,42 @@ footer{padding:40px 0 64px;color:var(--muted);font-size:.92rem}
           <li><strong>Test with new questions:</strong> I wrote the test questions myself, so engineers’ own wording will score lower in offline mode. The next step is to collect real questions and score the LLM mode on them.</li>
           <li><strong>Score the LLM mode:</strong> so far it is tested with a fake model (good answers, invented numbers, API errors). It still needs a scored run with a real API key.</li>
           <li><strong>Charts in answers:</strong> a question like “how does temperature affect loss?” would be clearer with a small chart.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="case" id="lab-test">
+  <div class="wrap">
+    <div class="read">
+      <p class="label">Case study 6 · Personal project · 2026</p>
+      <h2>Lab test automation: scripting test equipment, and tracking it so results can be trusted</h2>
+      <div class="meta"><span class="chip">Python</span><span class="chip">PyVISA</span><span class="chip">SCPI</span><span class="chip">pytest</span><span class="chip">Excel reports</span><span class="chip">GitHub Actions (Linux and Windows)</span></div>
+      <p><a href="https://github.com/Snehachowdary56/lab-test-automation">Code on GitHub</a> ·
+         <a href="https://github.com/Snehachowdary56/lab-test-automation/blob/main/docs/USER_GUIDE.md">User guide for lab staff</a></p>
+      <p class="label">Problem</p>
+      <p>Testing circuit boards by hand on a bench is slow and easy to get wrong: set the power supply, wait, read the meter, write it down, repeat for every board and every step. And a perfect test means nothing if the meter was out of calibration or the wrong instrument was plugged in.</p>
+      <p class="label">What I did</p>
+      <ul class="tight">
+        <li><strong>Scripted the instruments:</strong> Python drives a power supply and a multimeter with SCPI, the commands real bench instruments understand, through PyVISA. It runs on a simulated bench, and the same code runs on real instruments by changing their addresses.</li>
+        <li><strong>A repeatable test:</strong> a short YAML test plan (input voltages and limits) runs on 10 boards in one command and writes an Excel report. A planted defective board fails all three regulation steps, as it should.</li>
+        <li><strong>Equipment tracking:</strong> a register anyone can edit in Excel (asset tag, serial, location, calibration date, who has it). A run is blocked if an instrument is out of calibration, in repair, or reports a different serial number than the register.</li>
+        <li><strong>Safe by default:</strong> the power supply is switched off after every board, even if a step crashes.</li>
+      </ul>
+      <p class="label">How I tried to break it</p>
+      <p>29 tests run on Linux and Windows: a supply that stops answering in the middle of a board (the output must still be off afterwards), timeouts that clear after retries and ones that never do, limits exactly on the edge, calibration due today, a plan with low above high, and bad rows in the register.</p>
+      <p>Testing on real Windows machines matters. In my IT help desk toolkit, the tests on a Windows runner found a bug I would not have seen on my laptop: when exactly one service was stopped, Windows PowerShell 5.1 could not count it, so the report said "OK" instead of a warning. I fixed it and added a regression test.</p>
+    </div>
+    <div class="figs">
+      <figure><img src="img/labtest-run.png" alt="Terminal output: ten boards tested, nine PASS and REG-0007 FAIL on the 4.5, 5.0 and 6.0 volt steps, 90 percent yield, then an equipment check showing multimeter DMM-03 calibration expired." loading="lazy"><figcaption>One command tests 10 boards; the equipment check flags an expired meter.</figcaption></figure>
+      <figure><img src="img/labtest-report.png" alt="Excel Units sheet with serial, result and failed steps columns. Nine rows are PASS in green and REG-0007 is FAIL in red with its three failed steps." loading="lazy"><figcaption>The Excel report: pass in green, fail in red, with the steps that failed.</figcaption></figure>
+    </div>
+    <div class="read">
+      <p class="label">What I would change now</p>
+      <div class="change">
+        <ul class="tight">
+          <li><strong>Real instruments:</strong> it has only run on a simulated bench. The next step is a real power supply and meter, where settle time and noise matter.</li>
+          <li><strong>A shared register:</strong> a CSV works for one bench; a team would need a small database or SharePoint list so two people cannot check out the same instrument.</li>
         </ul>
       </div>
     </div>
