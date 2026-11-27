@@ -112,7 +112,7 @@ footer{padding:40px 0 64px;color:var(--muted);font-size:.92rem}
 <header class="top">
   <div class="wrap">
     <h1>Sneha Gunturu</h1>
-    <p class="role">Developer who builds, tests and documents software, data and AI tools, from front-end design to test automation. Master of Applied Computing, University of Windsor (expected Sep. 2027).</p>
+    <p class="role">Developer who builds, tests and documents software, data and AI tools, from front-end design and product analytics to machine learning and test automation. Master of Applied Computing, University of Windsor (expected Sep. 2027).</p>
     <div class="contact">
       <span>gunturu1@uwindsor.ca</span>
       <a href="https://linkedin.com/in/sneha-gunturu-a30117258">LinkedIn</a>
@@ -125,6 +125,9 @@ footer{padding:40px 0 64px;color:var(--muted);font-size:.92rem}
       <a href="#design-system">4. Accessible design system &amp; claim flow</a>
       <a href="#ai-chatbot">5. AI chatbot for test data</a>
       <a href="#lab-test">6. Lab test automation</a>
+      <a href="#pin-recommendations">7. Graph-based recommendations</a>
+      <a href="#digital-banking">8. Product analytics &amp; A/B test</a>
+      <a href="#market-quality">9. Equity market quality</a>
     </nav>
   </div>
 </header>
@@ -395,6 +398,107 @@ footer{padding:40px 0 64px;color:var(--muted);font-size:.92rem}
         <ul class="tight">
           <li><strong>Real instruments:</strong> it has only run on a simulated bench. The next step is a real power supply and meter, where settle time and noise matter.</li>
           <li><strong>A shared register:</strong> a CSV works for one bench; a team would need a small database or SharePoint list so two people cannot check out the same instrument.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="case" id="pin-recommendations">
+  <div class="wrap">
+    <div class="read">
+      <p class="label">Case study 7 · Personal project · 2026</p>
+      <h2>Recommendations for a discovery feed: graph-based retrieval, a neural ranker, and the new-content problem</h2>
+      <div class="meta"><span class="chip">PyTorch</span><span class="chip">LightGCN</span><span class="chip">MLflow</span><span class="chip">scikit-learn</span><span class="chip">pytest</span><span class="chip">GitHub Actions</span></div>
+      <p><a href="https://github.com/Snehachowdary56/pin-recommendations">Code on GitHub</a> ·
+         <a href="https://github.com/Snehachowdary56/pin-recommendations/blob/main/results/RESULTS.md">Full results</a></p>
+      <p class="label">Problem</p>
+      <p>Recommend 20 pins a user will save next. Data is generated sample data (3,000 users, 6,000 pins in 24 topics, about 88,000 saves), not real platform data. I split each user's saves by time, so the model is always tested on the future, never on saves it has already seen.</p>
+      <p class="label">What I did</p>
+      <ul class="tight">
+        <li><strong>Graph-based retrieval:</strong> LightGCN in PyTorch passes user and pin embeddings along the save graph, trained with a ranking loss (a saved pin should score above a random one). It beat matrix factorization: recall@20 0.176 vs 0.140.</li>
+        <li><strong>A neural ranker:</strong> stage 2 scores about 250 candidates per user from graph, text, topic and popularity features. Recall@20 rose to 0.189 and NDCG@20 from 0.142 to 0.153.</li>
+        <li><strong>New pins:</strong> a graph model cannot recommend a pin nobody has saved. I added a "fresh pins" source from text embeddings, and hid some older pins from the graph during training so the ranker could learn how unsaved pins behave.</li>
+        <li><strong>Tracked every experiment</strong> in MLflow: parameters, metrics and training time for 7 runs.</li>
+      </ul>
+    </div>
+    <div class="figs">
+      <figure><img src="img/pinrec-recall.png" alt="Horizontal bar chart of recall at 20: popularity baseline 0.036, matrix factorization 0.140, LightGCN 0.176, two-stage with neural ranker 0.189." loading="lazy"><figcaption>Recall@20 on held-out saves, generated sample data.</figcaption></figure>
+    </div>
+    <div class="read">
+      <p class="label">The trade-off I found</p>
+      <p>Even with fresh candidates, the ranker kept new pins out of the top 20, because established pins always scored higher. Reserving 3 of the 20 slots for the best fresh pins doubled catalog coverage (15.6% to 29.5%) and let new pins be discovered, for a small cost in recall (0.189 to 0.185). Which matters more is a product decision for an online A/B test, not an offline metric.</p>
+      <p class="label">What I would change now</p>
+      <div class="change">
+        <ul class="tight">
+          <li><strong>Better content signals:</strong> titles here only reveal a pin's topic. Image embeddings from a vision model would make new-pin recommendations much sharper.</li>
+          <li><strong>Scale:</strong> it trains on a laptop in 30 seconds. Real catalogs need approximate nearest-neighbour search for retrieval and sampled training.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="case" id="digital-banking">
+  <div class="wrap">
+    <div class="read">
+      <p class="label">Case study 8 · Personal project · 2026</p>
+      <h2>Product analytics for a digital bank: finding where customers give up, and proving the fix</h2>
+      <div class="meta"><span class="chip">Python</span><span class="chip">SQL</span><span class="chip">SciPy</span><span class="chip">Excel</span><span class="chip">A/B testing</span><span class="chip">pytest</span></div>
+      <p><a href="https://github.com/Snehachowdary56/digital-banking-product-analytics">Code on GitHub</a> ·
+         <a href="https://github.com/Snehachowdary56/digital-banking-product-analytics/blob/main/docs/PRD.md">Product brief</a> ·
+         <a href="https://github.com/Snehachowdary56/digital-banking-product-analytics/blob/main/docs/POST_LAUNCH_REVIEW.md">Post-launch review</a></p>
+      <p class="label">Problem</p>
+      <p>New customers start opening an account in a fictional bank's app and many never finish. Where do they stop, why, and does a redesign actually help? All data is generated sample data with known effects built in, so the analysis can be checked.</p>
+      <p class="label">What I did</p>
+      <ul class="tight">
+        <li><strong>Three sources, one answer:</strong> the account-opening funnel, 800 app reviews tagged by theme and 1,316 support contacts all pointed to identity verification (58.2% step conversion, 54.6% of 1-2 star reviews, the top contact reason).</li>
+        <li><strong>Product brief:</strong> a problem statement, 4 user stories with acceptance criteria, success metrics with a guardrail, and 4 options ranked with RICE.</li>
+        <li><strong>A/B test:</strong> 13,104 applications over 28 days. Conversion rose from 36.3% to 43.5% (95% CI +5.5 to +8.8 points) and satisfaction from 74.8% to 81.6%. I checked the 50/50 split first and confirmed the lift on iOS, Android and web.</li>
+        <li><strong>After launch:</strong> daily, weekly and monthly KPI reports in Excel and SQL, and a post-launch review (ID support contacts down 52%).</li>
+      </ul>
+    </div>
+    <div class="figs">
+      <figure><img src="img/banking-funnel.png" alt="Grouped bar chart of the onboarding funnel. Both variants start at 100 percent; at ID verified, A is about 48 and B about 57 percent; accounts opened are 36.3 percent for A and 43.5 percent for B." loading="lazy"><figcaption>The gap opens at the ID step and carries through to opened accounts.</figcaption></figure>
+    </div>
+    <div class="read">
+      <p class="label">What I would change now</p>
+      <div class="change">
+        <ul class="tight">
+          <li><strong>Not every metric moved.</strong> Savings-goal adoption rose slightly but was not significant (p = 0.11), so I left it out of the success story. I would keep it in that review on purpose.</li>
+          <li><strong>Competitor benchmark:</strong> the next step is comparing onboarding in real banking apps by hand: steps, ID method and whether you can save and continue.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="case" id="market-quality">
+  <div class="wrap">
+    <div class="read">
+      <p class="label">Case study 9 · Personal project · 2026</p>
+      <h2>Equity market quality: how fee structures move trading, and why the venue that fills most is not the best</h2>
+      <div class="meta"><span class="chip">SQL</span><span class="chip">Python</span><span class="chip">pandas</span><span class="chip">NumPy</span><span class="chip">Excel</span><span class="chip">Tableau extracts</span></div>
+      <p><a href="https://github.com/Snehachowdary56/equity-market-quality">Code on GitHub</a> ·
+         <a href="https://github.com/Snehachowdary56/equity-market-quality/blob/main/docs/MARKET_STRUCTURE.md">Market structure in plain language</a></p>
+      <p class="label">Problem</p>
+      <p>Stocks trade on several competing venues with different fee models. I wanted to measure market quality the way an exchange's analytics team would. All data is generated sample data: 4 fictional venues with illustrative fees, 20 symbols and 3 institutional clients, in a 6-table SQLite database (475K trades, 156K quotes, 24K client orders).</p>
+      <p class="label">What I did</p>
+      <ul class="tight">
+        <li><strong>Venue monitoring:</strong> after the inverted (taker-maker) venue raised its taker rebate, its share of traded value rose from 12.0% to 19.0%, mostly from the largest maker-taker venue.</li>
+        <li><strong>Market quality:</strong> quoted spreads from 1.8 to 12.2 bps by liquidity tier, depth at the best bid and offer, effective spread by venue; dark midpoint fills saved takers 2.3 bps.</li>
+        <li><strong>Post-trade routing review:</strong> the inverted venue filled the most passive orders (77.9%) but kept the least per fill after price moves and fees (1.68 vs 3.41 bps, p &lt; 0.001).</li>
+        <li><strong>Automated reporting:</strong> SQL with joins, window functions and CTEs (tests check it against Python), an Excel report with live SUMIFS and INDEX/MATCH formulas, and CSV extracts for a Tableau dashboard.</li>
+      </ul>
+    </div>
+    <div class="figs">
+      <figure><img src="img/equity-share.png" alt="Line chart of daily share of traded value for four venues over 20 trading days. After day 11, Venue B (inverted) jumps from about 12 to 19 percent while Venue A falls from about 52 to 47 percent; Venues C and D stay near 22 and 12 percent." loading="lazy"><figcaption>Market share shifts the day the inverted venue's fee changes.</figcaption></figure>
+    </div>
+    <div class="read">
+      <p class="label">What I would change now</p>
+      <div class="change">
+        <ul class="tight">
+          <li><strong>Real order-book data:</strong> my quotes are only the best price. Full depth-of-book data would show queue position, which drives fill rates on inverted venues.</li>
+          <li><strong>Advice as a trade-off:</strong> for one client, moving flow off the inverted venue gains 0.78 bps per fill but cuts its fill rate by 9 points. I would present both, because the right answer depends on how urgent the client's orders are.</li>
         </ul>
       </div>
     </div>
