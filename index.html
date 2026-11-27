@@ -407,8 +407,8 @@ footer{padding:40px 0 64px;color:var(--muted);font-size:.92rem}
   <div class="wrap">
     <div class="read">
       <p class="label">Case study 7 · Personal project · 2026</p>
-      <h2>Recommendations for a discovery feed: graph-based retrieval, a neural ranker, and the new-content problem</h2>
-      <div class="meta"><span class="chip">PyTorch</span><span class="chip">LightGCN</span><span class="chip">MLflow</span><span class="chip">scikit-learn</span><span class="chip">pytest</span><span class="chip">GitHub Actions</span></div>
+      <h2>Recommendations, ads and visual search for a discovery feed: graph-based retrieval, a neural ranker, and the new-content problem</h2>
+      <div class="meta"><span class="chip">PyTorch</span><span class="chip">TensorFlow</span><span class="chip">LightGCN</span><span class="chip">ResNet</span><span class="chip">MLflow</span><span class="chip">scikit-learn</span><span class="chip">pytest</span><span class="chip">GitHub Actions</span></div>
       <p><a href="https://github.com/Snehachowdary56/pin-recommendations">Code on GitHub</a> ·
          <a href="https://github.com/Snehachowdary56/pin-recommendations/blob/main/results/RESULTS.md">Full results</a></p>
       <p class="label">Problem</p>
@@ -418,7 +418,9 @@ footer{padding:40px 0 64px;color:var(--muted);font-size:.92rem}
         <li><strong>Graph-based retrieval:</strong> LightGCN in PyTorch passes user and pin embeddings along the save graph, trained with a ranking loss (a saved pin should score above a random one). It beat matrix factorization: recall@20 0.176 vs 0.140.</li>
         <li><strong>A neural ranker:</strong> stage 2 scores about 250 candidates per user from graph, text, topic and popularity features. Recall@20 rose to 0.189 and NDCG@20 from 0.142 to 0.153.</li>
         <li><strong>New pins:</strong> a graph model cannot recommend a pin nobody has saved. I added a "fresh pins" source from text embeddings, and hid some older pins from the graph during training so the ranker could learn how unsaved pins behave.</li>
-        <li><strong>Tracked every experiment</strong> in MLflow: parameters, metrics and training time for 7 runs.</li>
+        <li><strong>Ads ranking:</strong> a calibrated click-through-rate model (AUC 0.801) that accounts for position bias. Ranking ads by bid × predicted CTR earned 2.9 times the revenue of ranking by bid alone, and still showed a relevant ad 77% of the time.</li>
+        <li><strong>Visual search (computer vision):</strong> on 2,000 real CIFAR-10 images, a pretrained ResNet-18 found a same-class image in the top 10 63% of the time, against 24% for raw pixels and 22% for the same network untrained.</li>
+        <li><strong>Two frameworks:</strong> I rebuilt the ranker in TensorFlow/Keras and got the same NDCG as PyTorch. Every experiment is tracked in MLflow.</li>
       </ul>
     </div>
     <div class="figs">
@@ -430,7 +432,7 @@ footer{padding:40px 0 64px;color:var(--muted);font-size:.92rem}
       <p class="label">What I would change now</p>
       <div class="change">
         <ul class="tight">
-          <li><strong>Better content signals:</strong> titles here only reveal a pin's topic. Image embeddings from a vision model would make new-pin recommendations much sharper.</li>
+          <li><strong>Better content signals:</strong> titles here only reveal a pin's topic. The next step is feeding the ResNet image embeddings into the fresh-pins source, so new pins are matched by how they look.</li>
           <li><strong>Scale:</strong> it trains on a laptop in 30 seconds. Real catalogs need approximate nearest-neighbour search for retrieval and sampled training.</li>
         </ul>
       </div>
